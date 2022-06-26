@@ -101,6 +101,9 @@ if UPDATE:
         candles.columns = columns=["open_time", "open", "high", "low", "close", "volume", "close_time", "quote_asset_volume", "number_of_trades", "taker_buy_base_asset_volume", "taker_buy_quote_asset_volume", "ohlc4"]
         candles["open_time"] = candles["open_time"]/1000
         candles["open_time"] = candles["open_time"].round(0).astype(int)
+
+        candles["close_time"] = candles["close_time"]/1000
+        candles["close_time"] = candles["close_time"].round(0).astype(int)
         candles = pd.concat([df, candles.iloc[1:]])
         
         # Processign the data
@@ -122,6 +125,9 @@ else:
     # Processign the data
     candles["open_time"] = candles["open_time"]/1000 # Converting the unix time to datetime
     candles["open_time"] = candles["open_time"].round(0).astype(int)
+
+    candles["close_time"] = candles["close_time"]/1000 # Converting the unix time to datetime
+    candles["close_time"] = candles["close_time"].round(0).astype(int)
     candles = candles.drop(columns=["ohlc4"])
 
     candles.to_excel(f"./data/HistoricalCandles_{SYMBOL}_{TIMEFRAME}_{candles.iloc[0,0]}_{candles.iloc[-1,0]}.xlsx", index = False)
